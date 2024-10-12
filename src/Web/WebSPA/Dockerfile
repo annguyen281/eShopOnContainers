@@ -3,12 +3,12 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM ${NODE_IMAGE} as node-build
+FROM ${NODE_IMAGE} AS node-build
 WORKDIR /web
 COPY Web/WebSPA/package.json .
 COPY Web/WebSPA/package-lock.json .
 COPY Web/WebSPA .
-RUN npm i npm@latest -g && npm update && npm install && npm run build:prod
+RUN npm i npm@latest -g && npm update --legacy-peer-deps && npm install --legacy-peer-deps && npm run build:prod
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src

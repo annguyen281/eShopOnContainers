@@ -1,9 +1,9 @@
 {{- if .Values.ingress.enabled -}}
 {{- if .Values.inf.k8s.local -}}
-{{- $ingressPath := include "pathBase" . -}}
-{{- $serviceName := .Values.app.svc.mvc }}
-{{- $name := include "webmvc.fullname" . -}} 
-apiVersion: extensions/v1beta1
+{{- $ingressPath := include "pathBase" . -}}  # Get base path
+{{- $serviceName := .Values.app.svc.mvc }}  # Service name
+{{- $name := include "webmvc.fullname" . -}}  # Fullname for Ingress
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $name }}-local
@@ -25,9 +25,11 @@ spec:
   rules:
   - http:
       paths:
-      - backend:
-          serviceName: {{ $serviceName }}
-          servicePort: http
-        path: {{ $ingressPath }}
+      - path: {{ $ingressPath }}  # Combined path definition with pathType
+        pathType: Prefix  # Optional, can be customized in values.yaml
+        backend:
+          service:  # Updated syntax for newer Kubernetes versions
+            name: {{ $serviceName }}  # Corrected line
+            port: http  # Optional line (default port is http)
 {{- end -}}
 {{- end -}}

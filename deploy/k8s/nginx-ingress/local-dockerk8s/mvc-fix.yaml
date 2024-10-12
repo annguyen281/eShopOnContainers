@@ -1,10 +1,9 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    ingress.kubernetes.io/ssl-redirect: "false"
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/ssl-redirect: "false"  # Keep this one
+    # Removed the redundant annotation
   labels:
     app: webmvc
   name: eshop-webmvc-loopback
@@ -18,13 +17,12 @@ spec:
           servicePort: http
         path: /webmvc
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    ingress.kubernetes.io/ssl-redirect: "false"
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/ssl-redirect: "false"  # Keep this one
+    # Removed the redundant annotation
   labels:
     app: identity-api
   name: eshop-identity-api-loopback
